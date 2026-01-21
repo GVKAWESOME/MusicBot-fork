@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.jagrosh</groupId>
     <artifactId>JMusicBot</artifactId>
-    <version>Snapshot</version>
+    <version>4.4</version>
     <packaging>jar</packaging>
 
     <repositories>
@@ -12,11 +12,10 @@
             <name>m2-dv8tion</name>
             <url>https://m2.dv8tion.net/releases</url>
         </repository>
-        <repository>
-            <id>central</id>
-            <name>bintray</name>
-            <url>https://jcenter.bintray.com</url>
-        </repository>
+		<repository>
+			<id>chew</id>
+			<name>m2-chew</name>
+			<url>https://m2.chew.pro/releases</url>
         <repository>
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
@@ -42,12 +41,12 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>4.4.1_353</version>
+            <version>6.3</version>
         </dependency>
         <dependency>
-            <groupId>com.jagrosh</groupId>
-            <artifactId>jda-utilities</artifactId>
-            <version>3.0.5</version>
+            <groupId>pw.chew</groupId>
+            <artifactId>jda-chewtils</artifactId>
+            <version>2.2.1</version>
             <type>pom</type>
         </dependency>
 
