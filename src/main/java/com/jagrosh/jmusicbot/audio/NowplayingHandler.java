@@ -26,6 +26,8 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
+import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 
 /**
@@ -78,8 +80,7 @@ public class NowplayingHandler
                 continue;
             }
             AudioHandler handler = (AudioHandler)guild.getAudioManager().getSendingHandler();
-            // JDA 5: Get MessageEditData directly
-            MessageEditData msg = handler.getNowPlaying(bot.getJDA());
+            MessageCreateData msg = handler.getNowPlaying(bot.getJDA());
             if(msg==null)
             {
                 msg = handler.getNoMusicPlaying(bot.getJDA());
@@ -87,7 +88,8 @@ public class NowplayingHandler
             }
             try 
             {
-                tc.editMessageById(String.valueOf(pair.getValue()), msg).queue(m->{}, t -> lastNP.remove(guildId));
+                MessageEditData editData = new MessageEditBuilder().applyCreateData(msg).build();
+                tc.editMessageById(String.valueOf(pair.getValue()), editData).queue(m->{}, t -> lastNP.remove(guildId));
             } 
             catch(Exception e) 
             {
@@ -119,11 +121,11 @@ public class NowplayingHandler
         if(tc==null)
             return;
         
-        // JDA 5: Get MessageEditData directly
-        MessageEditData msg = handler.getNowPlaying(bot.getJDA());
+        MessageCreateData msg = handler.getNowPlaying(bot.getJDA());
         try 
         {
-            tc.editMessageById(String.valueOf(pair.getValue()), msg).queue(m->{}, t -> lastNP.remove(guildId));
+            MessageEditData editData = new MessageEditBuilder().applyCreateData(msg).build();
+            tc.editMessageById(String.valueOf(pair.getValue()), editData).queue(m->{}, t -> lastNP.remove(guildId));
         } 
         catch(Exception e) 
         {
