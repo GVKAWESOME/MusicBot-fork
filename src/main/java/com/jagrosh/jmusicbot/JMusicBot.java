@@ -36,8 +36,8 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.exceptions.InvalidTokenException;
-// DAVE Import
-import club.minnced.discord.jdave.JDaveSessionFactory; 
+// FIXED IMPORT: Added .interop subpackage
+import club.minnced.discord.jdave.interop.JDaveSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ch.qos.logback.classic.Level;
@@ -54,7 +54,7 @@ public class JMusicBot
                                 Permission.MESSAGE_EMBED_LINKS, Permission.MESSAGE_ATTACH_FILES, Permission.MESSAGE_MANAGE, Permission.MESSAGE_EXT_EMOJI,
                                 Permission.VOICE_CONNECT, Permission.VOICE_SPEAK, Permission.NICKNAME_CHANGE};
     
-    // Added GatewayIntent.MESSAGE_CONTENT to fix Discord warning and allow command reading
+    // Added GatewayIntent.MESSAGE_CONTENT
     public final static GatewayIntent[] INTENTS = {GatewayIntent.DIRECT_MESSAGES, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_MESSAGE_REACTIONS, GatewayIntent.GUILD_VOICE_STATES, GatewayIntent.MESSAGE_CONTENT};
     
     /**
@@ -122,11 +122,10 @@ public class JMusicBot
         try
         {
             // JDA 5: CacheFlag.EMOTE -> CacheFlag.EMOJI
-            // Added CacheFlag.STICKER and CacheFlag.SCHEDULED_EVENTS to disableCache()
             JDA jda = JDABuilder.create(config.getToken(), Arrays.asList(INTENTS))
                     .enableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE)
                     .disableCache(CacheFlag.ACTIVITY, CacheFlag.CLIENT_STATUS, CacheFlag.EMOJI, CacheFlag.ONLINE_STATUS, CacheFlag.STICKER, CacheFlag.SCHEDULED_EVENTS)
-                    // Added DAVE Session Factory
+                    // Configured DAVE Session Factory
                     .setAudioSessionFactory(new JDaveSessionFactory())
                     .setActivity(config.isGameNone() ? null : Activity.playing("loading..."))
                     .setStatus(config.getStatus()==OnlineStatus.INVISIBLE || config.getStatus()==OnlineStatus.OFFLINE 
