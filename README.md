@@ -1,5 +1,5 @@
 <img align="right" src="https://i.imgur.com/zrE80HY.png" height="200" width="200">
-
+### CAUTION THIS FORK HAS BEEN UPDATED VIA AI SLOP CODING. USE AT OWN RISK
 # JMusicBot
 
 [![Downloads](https://img.shields.io/github/downloads/jagrosh/MusicBot/total.svg)](https://github.com/jagrosh/MusicBot/releases/latest)
