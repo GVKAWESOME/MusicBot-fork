@@ -36,12 +36,12 @@ import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioTrack;
 import java.nio.ByteBuffer;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
-import net.dv8tion.jda.api.utils.messages.MessageEditData;
 import net.dv8tion.jda.api.audio.AudioSendHandler;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateData;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -216,14 +216,14 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
 
     
     // Formatting
-    public MessageEditData getNowPlaying(JDA jda)
+    public MessageCreateData getNowPlaying(JDA jda)
     {
         if(isMusicPlaying(jda))
         {
             Guild guild = guild(jda);
             AudioTrack track = audioPlayer.getPlayingTrack();
-            MessageEditBuilder mb = new MessageEditBuilder();
-            mb.setContent(FormatUtil.filter(manager.getBot().getConfig().getSuccess()+" **Now Playing in "+guild.getSelfMember().getVoiceState().getChannel().getAsMention()+"...**"));
+            MessageCreateBuilder mb = new MessageCreateBuilder();
+            mb.addContent(FormatUtil.filter(manager.getBot().getConfig().getSuccess()+" **Now Playing in "+guild.getSelfMember().getVoiceState().getChannel().getAsMention()+"...**"));
             EmbedBuilder eb = new EmbedBuilder();
             eb.setColor(guild.getSelfMember().getColor());
             RequestMetadata rm = getRequestMetadata();
@@ -264,10 +264,10 @@ public class AudioHandler extends AudioEventAdapter implements AudioSendHandler
         else return null;
     }
     
-    public MessageEditData getNoMusicPlaying(JDA jda)
+    public MessageCreateData getNoMusicPlaying(JDA jda)
     {
         Guild guild = guild(jda);
-        return new MessageEditBuilder()
+        return new MessageCreateBuilder()
                 .setContent(FormatUtil.filter(manager.getBot().getConfig().getSuccess()+" **Now Playing...**"))
                 .setEmbeds(new EmbedBuilder()
                 .setTitle("No music playing")
