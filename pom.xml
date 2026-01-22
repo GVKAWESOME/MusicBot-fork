@@ -82,8 +82,9 @@
         	<artifactId>jdave-api</artifactId>
         	<version>0.1.5</version>
     	</dependency>
-</dependencies>
-
+	</dependencies>
+	
+	<dependencies>
         <!-- Misc Internal Dependencies -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
