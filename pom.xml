@@ -72,6 +72,17 @@
             <artifactId>sourcemanagers</artifactId>
             <version>1.9.0</version>
         </dependency>
+	<dependencies>
+    <dependency>
+        <groupId>club.minnced</groupId>
+        <artifactId>jdave-native-linux-x86-64</artifactId>
+        <version>0.1.5</version> </dependency>
+    <dependency>
+        <groupId>club.minnced</groupId>
+        <artifactId>jdave-api</artifactId>
+        <version>0.1.5</version>
+    </dependency>
+</dependencies>
 
         <!-- Misc Internal Dependencies -->
         <dependency>
