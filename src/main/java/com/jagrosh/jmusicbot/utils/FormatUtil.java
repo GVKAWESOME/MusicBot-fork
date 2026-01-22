@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,9 +18,9 @@ package com.jagrosh.jmusicbot.utils;
 import com.jagrosh.jmusicbot.audio.RequestMetadata.UserInfo;
 import java.util.List;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.entities.channel.concrete.VoiceChannel;
 
 /**
  *
@@ -55,21 +55,21 @@ public class FormatUtil {
         String str = "";
         for(int i=0; i<12; i++)
             if(i == (int)(percent*12))
-                str+="\uD83D\uDD18"; // 🔘
+                str+="\uD83D\uDD18"; // 曝
             else
-                str+="▬";
+                str+="笆ｬ";
         return str;
     }
     
     public static String volumeIcon(int volume)
     {
         if(volume == 0)
-            return "\uD83D\uDD07"; // 🔇
+            return "\uD83D\uDD07"; // 這
         if(volume < 30)
-            return "\uD83D\uDD08"; // 🔈
+            return "\uD83D\uDD08"; // 蝿
         if(volume < 70)
-            return "\uD83D\uDD09"; // 🔉
-        return "\uD83D\uDD0A";     // 🔊
+            return "\uD83D\uDD09"; // 秤
+        return "\uD83D\uDD0A";     // 矧
     }
     
     public static String listOfTChannels(List<TextChannel> list, String query)
