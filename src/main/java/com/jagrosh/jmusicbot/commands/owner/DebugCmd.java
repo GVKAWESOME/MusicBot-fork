@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,7 +23,8 @@ import com.jagrosh.jmusicbot.utils.OtherUtil;
 import com.sedmelluq.discord.lavaplayer.tools.PlayerLibrary;
 import net.dv8tion.jda.api.JDAInfo;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.utils.FileUpload;
+import net.dv8tion.jda.api.entities.channel.ChannelType;
 
 /**
  *
@@ -80,7 +81,7 @@ public class DebugCmd extends OwnerCommand
         
         if(event.isFromType(ChannelType.PRIVATE) 
                 || event.getSelfMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_ATTACH_FILES))
-            event.getChannel().sendFile(sb.toString().getBytes(), "debug_information.txt").queue();
+            event.getChannel().sendFiles(FileUpload.fromData(sb.toString().getBytes(), "debug_information.txt")).queue();
         else
             event.reply("Debug Information: " + sb.toString());
     }
