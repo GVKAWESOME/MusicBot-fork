@@ -75,7 +75,8 @@
 		<dependency>
         	<groupId>club.minnced</groupId>
         	<artifactId>jdave-native-linux-x86-64</artifactId>
-        	<version>0.1.5</version> </dependency>
+        	<version>0.1.5</version>
+		</dependency>
     	<dependency>
         	<groupId>club.minnced</groupId>
         	<artifactId>jdave-api</artifactId>
@@ -157,7 +158,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
     </properties>
 </project>
