@@ -30,12 +30,12 @@ import com.jagrosh.jmusicbot.settings.SettingsManager;
 import com.jagrosh.jmusicbot.utils.OtherUtil;
 import java.awt.Color;
 import java.util.Arrays;
-import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.api.*;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
+import net.dv8tion.jda.api.exceptions.InvalidTokenException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ch.qos.logback.classic.Level;
@@ -149,7 +149,7 @@ public class JMusicBot
                         + "on https://discord.com/developers/applications/" + jda.getSelfUser().getId() + "/bot");
             }
         }
-        catch (LoginException ex)
+        catch (InvalidTokenException ex)
         {
             prompt.alert(Prompt.Level.ERROR, "JMusicBot", ex + "\nPlease make sure you are "
                     + "editing the correct config.txt file, and that you have used the "
