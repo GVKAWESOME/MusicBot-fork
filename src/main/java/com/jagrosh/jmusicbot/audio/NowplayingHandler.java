@@ -17,20 +17,15 @@ package com.jagrosh.jmusicbot.audio;
 
 import com.jagrosh.jmusicbot.Bot;
 import com.jagrosh.jmusicbot.entities.Pair;
-import com.jagrosh.jmusicbot.settings.Settings;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
-import net.dv8tion.jda.api.exceptions.PermissionException;
-import net.dv8tion.jda.api.exceptions.RateLimitedException;
-import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageEditData;
 
 /**
@@ -56,7 +51,6 @@ public class NowplayingHandler
     
     public void setLastNPMessage(Message m)
     {
-        // JDA 5 Fix: m.getTextChannel() -> m.getChannel().asTextChannel()
         lastNP.put(m.getGuild().getIdLong(), new Pair<>(m.getChannel().asTextChannel().getIdLong(), m.getIdLong()));
     }
     
@@ -84,7 +78,8 @@ public class NowplayingHandler
                 continue;
             }
             AudioHandler handler = (AudioHandler)guild.getAudioManager().getSendingHandler();
-            Message msg = handler.getNowPlaying(bot.getJDA());
+            // JDA 5: Get MessageEditData directly
+            MessageEditData msg = handler.getNowPlaying(bot.getJDA());
             if(msg==null)
             {
                 msg = handler.getNoMusicPlaying(bot.getJDA());
@@ -92,11 +87,7 @@ public class NowplayingHandler
             }
             try 
             {
-                // JDA 5 Fix: 
-                // 1. Convert Long ID to String
-                // 2. Convert Message object to MessageEditData using MessageEditBuilder
-                MessageEditData editData = MessageEditBuilder.fromMessage(msg).build();
-                tc.editMessageById(String.valueOf(pair.getValue()), editData).queue(m->{}, t -> lastNP.remove(guildId));
+                tc.editMessageById(String.valueOf(pair.getValue()), msg).queue(m->{}, t -> lastNP.remove(guildId));
             } 
             catch(Exception e) 
             {
@@ -106,17 +97,37 @@ public class NowplayingHandler
         toRemove.forEach(id -> lastNP.remove(id));
     }
 
-    // "event"-based methods
-    public void onTrackUpdate(AudioTrack track)
+    public void onTrackUpdate(long guildId, AudioTrack track, AudioHandler handler)
     {
         // update bot status if applicable
         if(bot.getConfig().getSongInStatus())
         {
-            // JDA 5 Fix: inVoiceChannel() -> getChannel() != null
             if(track!=null && bot.getJDA().getGuilds().stream().filter(g -> g.getSelfMember().getVoiceState().getChannel() != null).count()<=1)
                 bot.getJDA().getPresence().setActivity(Activity.listening(track.getInfo().title));
             else
                 bot.resetGame();
+        }
+        
+        // update nowplaying message
+        Pair<Long,Long> pair = lastNP.get(guildId);
+        if(pair==null)
+            return;
+        Guild guild = bot.getJDA().getGuildById(guildId);
+        if(guild==null)
+            return;
+        TextChannel tc = guild.getTextChannelById(pair.getKey());
+        if(tc==null)
+            return;
+        
+        // JDA 5: Get MessageEditData directly
+        MessageEditData msg = handler.getNowPlaying(bot.getJDA());
+        try 
+        {
+            tc.editMessageById(String.valueOf(pair.getValue()), msg).queue(m->{}, t -> lastNP.remove(guildId));
+        } 
+        catch(Exception e) 
+        {
+            lastNP.remove(guildId);
         }
     }
     
